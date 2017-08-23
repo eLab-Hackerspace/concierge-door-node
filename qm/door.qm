@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="4.0.3" links="0">
+ <framework name="qpn"/>
+ <package name="HSMs" stereotype="0x02">
+  <class name="Door" superclass="qpn::QHsm">
+   <statechart>
+    <initial target="../1">
+     <initial_glyph conn="11,6,5,3,18">
+      <action box="0,-2,10,2"/>
+     </initial_glyph>
+    </initial>
+    <state name="calibrating">
+     <entry>init step timer</entry>
+     <exit>stop step timer</exit>
+     <tran trig="STEP_TIMER">
+      <action brief="step()"/>
+      <tran_glyph conn="29,14,3,-1,19">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="LOCKED" target="../../2">
+      <tran_glyph conn="29,17,3,3,33">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="29,1,23,22">
+      <entry box="1,2,21,4"/>
+      <exit box="1,6,20,4"/>
+     </state_glyph>
+    </state>
+    <state name="locked">
+     <entry>subscribe to door/unlock</entry>
+     <exit>unsubscribe to door/unlock</exit>
+     <tran trig="UNLOCKED" target="../../3">
+      <tran_glyph conn="87,12,1,3,20">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="UNLOCK" target="../../5">
+      <tran_glyph conn="62,23,3,3,-5,28,5">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="62,1,25,31">
+      <entry box="1,2,22,4"/>
+      <exit box="1,6,22,4"/>
+     </state_glyph>
+    </state>
+    <state name="unlocked">
+     <entry>subscribe to door/lock</entry>
+     <exit>unsubscribe to door/lock</exit>
+     <tran trig="LOCKED" target="../../2">
+      <tran_glyph conn="107,15,3,1,-20">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="LOCK" target="../../6">
+      <action>start locking</action>
+      <tran_glyph conn="107,26,3,0,8,19">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="OPENED" target="../../4">
+      <tran_glyph conn="107,22,3,3,37">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="107,1,26,28">
+      <entry box="1,2,18,5"/>
+      <exit box="1,7,17,5"/>
+     </state_glyph>
+    </state>
+    <state name="opened">
+     <tran trig="CLOSED" target="../../3">
+      <tran_glyph conn="144,26,3,1,-11">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="144,12,20,17"/>
+    </state>
+    <state name="unlocking">
+     <entry>move motor to unlocked position</entry>
+     <tran trig="STEP_TIMER">
+      <tran_glyph conn="62,57,3,-1,19">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="MOTOR_OFF" target="../../3">
+      <tran_glyph conn="62,60,3,2,34,8,40,-30,-5,-9">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="62,45,25,18">
+      <entry box="1,2,20,5"/>
+     </state_glyph>
+    </state>
+    <state name="locking">
+     <entry>move motor to lock</entry>
+     <tran trig="STEP_TIMER">
+      <tran_glyph conn="107,54,3,-1,17">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="MOTOR_OFF" target="../../2">
+      <tran_glyph conn="107,57,3,1,-18,-33,-2">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="107,45,25,18">
+      <entry box="1,2,17,4"/>
+     </state_glyph>
+    </state>
+    <state_diagram size="165,86"/>
+   </statechart>
+  </class>
+ </package>
+</model>

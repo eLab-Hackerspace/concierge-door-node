@@ -2,29 +2,29 @@ name: concierge-door-node
 arch: esp8266
 version: 1.0
 skeleton_version: 2017-05-18
+
+libs_version: ${mos_version}
+modules_version: ${mos_version}
+mongoose_os_version: ${mos_version}
+
 sources:
   - src
 filesystem:
   - fs
 config_schema:
-  - ["mqtt.pub", "s", "/response", {title: "Publish topic"}]
-  - ["mqtt.sub", "s", "/request", {title: "Subscribe topic"}]
-  - ["mqtt.server", "broker.mqttdashboard.com:1883"]
-  - ["device.id", "test"]
-  - ["device.password", "test"]
+  - ["mqtt.server", "broker.elab:1883"]
+  - ["mqtt.pub_qos", "i", 1, {title: "QoS level for publish"}]
   - ["i2c.enable", true]
+  - ["speed_control", "o", {title: "Speed Control Config"}]
+  - ["speed_control.acceleration", "i", 1, {title: "Acceleration in 0.01*rad/s^2"}]
+  - ["speed_control.deceleration", "i", 1, {title: "Deceleration in 0.01*rad/s^2"}]
+  - ["speed_control.max_speed", "i", 1, {title: "Max speed in 0.01*rad/s"}]
 libs:
-  - origin: https://github.com/mongoose-os-libs/http-server
-  - origin: https://github.com/mongoose-os-libs/ota-http-server
-  - origin: https://github.com/mongoose-os-libs/rpc-loopback
-  - origin: https://github.com/mongoose-os-libs/rpc-mqtt
   - origin: https://github.com/mongoose-os-libs/rpc-service-config
   - origin: https://github.com/mongoose-os-libs/rpc-service-fs
-  - origin: https://github.com/mongoose-os-libs/rpc-service-gpio
-  - origin: https://github.com/mongoose-os-libs/rpc-service-i2c
-  - origin: https://github.com/mongoose-os-libs/rpc-service-ota
   - origin: https://github.com/mongoose-os-libs/rpc-uart
-  - origin: https://github.com/mongoose-os-libs/spi
-  - origin: https://github.com/mongoose-os-libs/vfs-dev-spi-flash
+  - origin: https://github.com/mongoose-os-libs/mqtt
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-libs/arduino-compat
 build_vars:
   SSL: mbedTLS
